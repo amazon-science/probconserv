@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "deep_pdes"
+version = "0.1.0"
+description = "Code to accompany paper 'Learning Physical Models that Can Respect Conservation Laws'"
+packages = [{include = "deep_pdes"}]
+authors = ["Derek Hansen"]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+numpy = "^1.22.4"
+scipy = "^1.8.1"
+matplotlib = "^3.5.2"
+torch = "^1.11.0"
+pytorch-lightning = "^1.6.4"
+notebook = "^6.4.12"
+einops = "^0.4.1"
+pykalman = "^0.9.5"
+hydra-core = "^1.2.0"
+plotnine = "^0.9.0"
+qpsolvers = {extras = ["starter_solvers"], version = "^2.2.0"}
+joblib = "^1.1.0"
+patchworklib = "^0.4.7"
+icontract = "^2.6.2"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+flake8 = "^4.0.1"
+pytest = "^7.1.2"
+pylint = "^2.14.0"
+pytest-cov = "^3.0.0"
+wemake-python-styleguide = "^0.16.1"
+mypy = "^0.961"
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

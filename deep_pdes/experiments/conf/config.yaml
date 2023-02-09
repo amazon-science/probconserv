@@ -1,0 +1,22 @@
+train:
+  save_best_model: True
+  trainer:
+    _target_: pytorch_lightning.Trainer
+    accelerator: "gpu"
+    devices: 1
+    logger:
+      _target_: pytorch_lightning.loggers.TensorBoardLogger
+      default_hp_metric: False
+  checkpoint_callback:
+    _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    filename: "epoch={epoch}-val_loss={val_loss:.3f}"
+    save_top_k: 5
+    verbose: True
+    monitor: "val_loss"
+    mode: "min"
+    save_on_train_epoch_end: False
+    auto_insert_metric_name: False
+  analyze:
+    plot_shock: False
+datasets:
+  dataset_overwrite: False

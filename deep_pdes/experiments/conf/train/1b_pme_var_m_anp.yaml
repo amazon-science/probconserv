@@ -1,0 +1,15 @@
+name: 1b_pme_var_m_anp
+version: "1"
+save_dir: ${base_dir}/${train.name}
+dataset_path: ${datasets.save_path}
+state_dict_path: ${methods.anp.state_dict}
+trainer:
+  max_epochs: 500
+  check_val_every_n_epoch: 10
+  logger:
+    save_dir: ${train.save_dir}
+    name: ${train.name}
+    version: ${train.version}
+datasets: ${datasets}
+model: ${methods.anp.model}
+

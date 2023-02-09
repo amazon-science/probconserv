@@ -1,0 +1,201 @@
+# @package _global_
+base_dir: ./output/paper/3b_heat_var_c
+datasets: 
+  c_min: 1
+  c_max: 5
+  save_path: ${base_dir}/datasets
+  train:
+    _target_: deep_pdes.datasets.pme.HeatEquation
+    n_functions: 10000
+    n_contexts_t: 10
+    n_contexts_x: 10
+    n_targets_t: 10
+    n_targets_x: 10
+    batch_size: 250
+    conductivity_min: ${datasets.c_min}
+    conductivity_max: ${datasets.c_max}
+  valid:
+    _target_: deep_pdes.datasets.pme.HeatEquation
+    n_functions: 100
+    n_contexts_t: ${datasets.train.n_contexts_t}
+    n_contexts_x: ${datasets.train.n_contexts_x}
+    n_targets_t: ${datasets.train.n_targets_t}
+    n_targets_x: ${datasets.train.n_targets_x}
+    batch_size: 250
+    conductivity_min: ${datasets.c_min}
+    conductivity_max: ${datasets.c_max}
+  test:
+    _target_: deep_pdes.datasets.pme.HeatEquation
+    n_functions: 100
+    n_contexts_t: ${datasets.train.n_contexts_t}
+    n_contexts_x: ${datasets.train.n_contexts_x}
+    n_targets_t: ${datasets.train.n_targets_t}
+    n_targets_x: ${datasets.train.n_targets_x}
+    batch_size: 250
+    conductivities:
+      - 1
+      - 5
+methods:
+  anp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.anp.ANP
+      num_hidden: 128
+      dim_x: 2
+      dim_y: 1
+      lr: 1e-4
+    state_dict: ${base_dir}/train/anp.pt
+  physnp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.probconserv.PhysNP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      lr: 1e-4
+      constraint_precision_train: 1e12
+      train_precision: False
+      limiting_mode: physnp
+    state_dict:
+    # state_dict: ${base_dir}/train/physnp.pt
+  physnp_second_deriv:
+    model:
+      _target_: deep_pdes.attentive_neural_process.probconserv.PhysNP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      lr: 1e-4
+      constraint_precision_train: 1e12
+      train_precision: False
+      second_deriv_alpha: 0.9
+    state_dict:
+  hcnp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.probconserv.PhysNP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      lr: 1e-4
+      constraint_precision_train: 1e12
+      train_precision: False
+      limiting_mode: hcnp
+    state_dict:
+    # state_dict: ${base_dir}/train/physnp.pt
+  pinp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.softc.PINP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      pressure_fn:
+        _target_: deep_pdes.attentive_neural_process.softc.HeatPressureFn
+      pinns_lambda: 1.0
+      lr: 1e-4
+    state_dict: ${base_dir}/train/pinp.pt
+analysis:
+  outdir: ${base_dir}/analysis/
+  inference_results : ${analysis.outdir}/inference_results.pt
+  plot_df_path: ${analysis.outdir}/plot_df.pkl
+  true_df_path: ${analysis.outdir}/true_df.pkl
+  mse_at_t_df_path: ${analysis.outdir}/mse_at_t_df.pkl
+  cons_df_path: ${analysis.outdir}/cons_df.pkl
+  true_cons_df_path: ${analysis.outdir}/true_cons_df.pkl
+  methods:
+    anp:
+      model: ${methods.anp.model}
+      state_dict: ${methods.anp.state_dict}
+      infer_path: ${base_dir}/analysis/anp_infer.pt
+      overwrite: False
+      truncated_version: False
+      n_samples: 100
+    pinp:
+      model: ${methods.pinp.model}
+      state_dict: ${methods.pinp.state_dict}
+      infer_path: ${base_dir}/analysis/pinp_infer.pt
+      overwrite: False
+      truncated_version: False
+      n_samples: 100
+    physnp_notrain:
+      model: ${methods.physnp.model}
+      state_dict: ${methods.physnp.state_dict}
+      infer_path: ${base_dir}/analysis/physnp_notrain.pt
+      overwrite: False
+      constraint_precision: 1e12
+      anp_state_dict: ${methods.anp.state_dict}
+      truncated_version: False
+      constrained_version: False
+      n_samples: 100
+    hcnp_notrain:
+      model: ${methods.hcnp.model}
+      state_dict: ${methods.hcnp.state_dict}
+      infer_path: ${base_dir}/analysis/hcnp_notrain.pt
+      overwrite: False
+      constraint_precision: 1e12
+      anp_state_dict: ${methods.anp.state_dict}
+      truncated_version: False
+      constrained_version: False
+      n_samples: 100
+    physnp_second_deriv:
+      model: ${methods.physnp_second_deriv.model}
+      state_dict: ${methods.physnp_second_deriv.state_dict}
+      infer_path: ${base_dir}/analysis/physnp_second_deriv.pt
+      overwrite: False
+      constraint_precision: 1e12
+      anp_state_dict: ${methods.anp.state_dict}
+      truncated_version: False
+      constrained_version: False
+      n_samples: 100
+  nt: 201
+  nx: 201
+  dpi: 500
+  base_font_size: 15
+  n_shock_samples: 250
+  n_shock_samples_per_batch: 50
+  t_range:
+    - 0.0
+    - 1.0
+  x_range:
+    - 0.0
+    - 6.283185307179586
+  gpu: "cuda:0"
+  plot_shock: True
+  t_of_interest:
+    - 0.5
+  x_of_interest:
+    - 0.32
+  fids_of_interest:
+    - "1"
+  nice_names:
+    anp: "ANP"
+    pinp: "SoftC-ANP"
+    hcnp_notrain: "HardC-ANP"
+    physnp_notrain: "ProbConserv-ANP"
+    # physnp_second_deriv: "ProbConserv-ANP (w/diffusion)"
+  colors:
+    - "#F8766D"
+    - "#7CAE00"
+    - "#00BFC4"
+    - "#C77CFF"
+    - "#000000"
+  # colors:
+  #   ANP: "#F8766D"
+  #   "ANP+SoftC": "#7CAE00"
+  #   "ANP+HardC": "#00BFC4"
+  #   PhysNP: "#C77CFF"
+  params_ordered:
+    - 1
+    - 5
+  mse_plot_width: 6
+  mse_plot_height: 3
+  cons_plot_width: 4.5
+  cons_plot_height: 3
+  shock_plot_width: 6
+  shock_plot_height: 6
+  time_plot_width: 8
+  time_plot_height: 8

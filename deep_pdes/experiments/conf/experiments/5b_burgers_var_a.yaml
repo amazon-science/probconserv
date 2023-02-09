@@ -1,0 +1,177 @@
+# @package _global_
+base_dir: ./output/paper/5b_burgers_var_a
+datasets: 
+  a_min: 1.0
+  a_max: 4.0
+  save_path: ${base_dir}/datasets
+  dataset_overwrite: True
+  train:
+    _target_: deep_pdes.datasets.pme.Burgers
+    n_functions: 10000
+    n_contexts_t: 10
+    n_contexts_x: 10
+    n_targets_t: 10
+    n_targets_x: 10
+    t_range:
+      - 0.0
+      - 1.0
+    batch_size: 250
+    a_lim:
+      - ${datasets.a_min}
+      - ${datasets.a_max}
+  valid:
+    _target_: deep_pdes.datasets.pme.Burgers
+    n_functions: 100
+    n_contexts_t: ${datasets.train.n_contexts_t}
+    n_contexts_x: ${datasets.train.n_contexts_x}
+    n_targets_t: ${datasets.train.n_targets_t}
+    n_targets_x: ${datasets.train.n_targets_x}
+    batch_size: 250
+    a_lim:
+      - ${datasets.a_min}
+      - ${datasets.a_max}
+    t_range: ${datasets.train.t_range}
+  test:
+    _target_: deep_pdes.datasets.pme.Burgers
+    n_functions: 100
+    n_contexts_t: ${datasets.train.n_contexts_t}
+    n_contexts_x: ${datasets.train.n_contexts_x}
+    n_targets_t: ${datasets.train.n_targets_t}
+    n_targets_x: ${datasets.train.n_targets_x}
+    batch_size: 250
+    t_range: ${datasets.train.t_range}
+    a_vals:
+      - 1.0
+      - 3.0
+methods:
+  anp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.anp.ANP
+      num_hidden: 128
+      dim_x: 2
+      dim_y: 1
+      lr: 1e-4
+    state_dict: ${base_dir}/train/anp.pt
+  hcnp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.probconserv.PhysNP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      lr: 1e-4
+      constraint_precision_train: 1e5
+      train_precision: False
+      limiting_mode: hcnp
+    state_dict:
+  pinp:
+    model:
+      _target_: deep_pdes.attentive_neural_process.softc.SoftcANP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      differential_penalty:
+        _target_: deep_pdes.attentive_neural_process.softc.BurgersDifferentialPenalty
+      pinns_lambda: 1.0
+      lr: 1e-4
+    state_dict: ${base_dir}/train/pinp.pt
+  physnp_limit:
+    model:
+      _target_: deep_pdes.attentive_neural_process.probconserv.PhysNP
+      anp:
+        _target_: deep_pdes.attentive_neural_process.anp.ANP
+        num_hidden: 128
+        dim_x: 2
+        dim_y: 1
+      lr: 1e-4
+      limiting_mode: physnp
+    state_dict:
+analysis:
+  outdir: ${base_dir}/analysis/
+  inference_results : ${analysis.outdir}/inference_results.pt
+  plot_df_path: ${analysis.outdir}/plot_df.pkl
+  true_df_path: ${analysis.outdir}/true_df.pkl
+  mse_at_t_df_path: ${analysis.outdir}/mse_at_t_df.pkl
+  cons_df_path: ${analysis.outdir}/cons_df.pkl
+  true_cons_df_path: ${analysis.outdir}/true_cons_df.pkl
+  methods:
+    anp:
+      model: ${methods.anp.model}
+      state_dict: ${methods.anp.state_dict}
+      infer_path: ${base_dir}/analysis/anp_infer.pt
+      overwrite: False
+      truncated_version: False
+      n_samples: 100
+      shock_path: ${base_dir}/analysis/anp_shocks.pt
+    pinp:
+      model: ${methods.pinp.model}
+      state_dict: ${methods.pinp.state_dict}
+      infer_path: ${base_dir}/analysis/pinp_infer.pt
+      overwrite: False
+      truncated_version: False
+      n_samples: 100
+      shock_path: ${base_dir}/analysis/pinp_shocks.pt
+    physnp_limit:
+      model: ${methods.physnp_limit.model}
+      state_dict: ${methods.physnp_limit.state_dict}
+      infer_path: ${base_dir}/analysis/physnp_limit.pt
+      overwrite: False
+      constraint_precision: 1e6
+      anp_state_dict: ${methods.anp.state_dict}
+      truncated_version: False
+      constrained_version: False
+      n_samples: 100
+      shock_path: ${base_dir}/analysis/physnp_limit_shocks.pt
+    hcnp_notrain:
+      model: ${methods.hcnp.model}
+      state_dict: ${methods.hcnp.state_dict}
+      infer_path: ${base_dir}/analysis/hcnp_notrain.pt
+      overwrite: False
+      constraint_precision: 1e8
+      anp_state_dict: ${methods.anp.state_dict}
+      truncated_version: False
+      constrained_version: False
+      n_samples: 100
+      shock_path: ${base_dir}/analysis/hcnp_notrain_shocks.pt
+  nt: 201
+  nx: 201
+  dpi: 500
+  base_font_size: 15
+  n_shock_samples: 500
+  n_shock_samples_per_batch: 50
+  t_range: ${datasets.train.t_range}
+  x_range:
+    - -1.0
+    - 1.0
+  gpu: "cuda:0"
+  plot_shock: True
+  t_of_interest:
+    - 0.5
+  x_of_interest:
+    - 0.32
+  fids_of_interest:
+    - "1"
+  nice_names:
+    anp: "ANP"
+    pinp: "SoftC-ANP"
+    hcnp_notrain: "HardC-ANP"
+    physnp_limit: "ProbConserv-ANP"
+  colors:
+    - "#F8766D"
+    - "#7CAE00"
+    - "#00BFC4"
+    - "#C77CFF"
+  params_ordered:
+    - 1.0
+    - 3.0
+  mse_plot_width: 6
+  mse_plot_height: 3
+  cons_plot_width: 6
+  cons_plot_height: 3
+  shock_plot_width: 6
+  shock_plot_height: 9
+  time_plot_width: 12
+  time_plot_height: 6
