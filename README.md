@@ -1,7 +1,8 @@
-# ProbConserv
+# ProbConserv: Probabilistic Framework to Enforce Conservation Laws
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
-Code to reproduce the experiments in ICML 2023 submission 'Learning Physical Models that Can Respect Conservation Laws'.
+[Derek Hansen](http://www-personal.umich.edu/~dereklh/), [Danielle C. Maddix](https://scholar.google.com/citations?user=IPDByA8AAAAJ&hl=en), [Shima Alizadeh](https://scholar.google.com/citations?user=r3qS03kAAAAJ&hl=en), [Gaurav Gupta](http://guptagaurav.me/index.html), [Michael W. Mahoney](https://www.stat.berkeley.edu/~mmahoney/) \
+**Learning Physical Models that Can Respect Conservation Laws**
 
 # Installation
 This project uses [poetry](https://python-poetry.org/) to manage dependencies.
