@@ -1,6 +1,8 @@
 # ProbConserv: Probabilistic Framework to Enforce Conservation Laws
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
+![Image](resources/schematic.png)
+
 [Derek Hansen](http://www-personal.umich.edu/~dereklh/), [Danielle C. Maddix](https://scholar.google.com/citations?user=IPDByA8AAAAJ&hl=en), [Shima Alizadeh](https://scholar.google.com/citations?user=r3qS03kAAAAJ&hl=en), [Gaurav Gupta](http://guptagaurav.me/index.html), [Michael W. Mahoney](https://www.stat.berkeley.edu/~mmahoney/) \
 **Learning Physical Models that Can Respect Conservation Laws**
 
@@ -24,11 +26,11 @@ To run the tests:
 poetry run pytest
 ```
 The code for this project is located in the `deep_pdes` folder. It consists of two libraries, `attentive_neural_process` and  `datasets`, that comprise the models and datasets respectively.
-These libraries are imported by the scripts in `experiments` that configure and run the specific case studies explored in the PhysNP paper.
+These libraries are imported by the scripts in `experiments` that configure and run the specific case studies explored in the ProbConserv paper.
 # Running experiments
 The experiment code in `deep_pdes/experiment` uses [Hydra](https://hydra.cc/) to manage configuration and run experiments. The different stages of the experiments are broken into distinct commands for easier reproduceability
 - `generate.py`: Generate synthetic datasets for training
-- `train.py`: Train ANP, PhysNP, and other baseline methods such as PINNS
+- `train.py`: Train ProbConserv-ANP, ANP, and other baseline methods such as Physics-Informed Neural Networks (PINNs)
 - `analyze.py`: Evaluate the trained models on test datasets and create tables/plots from the results.
 - `plots.py`: Generate all plots used in the submission. Does not use the Hydra CLI but uses the compose API internally.
 
@@ -42,6 +44,11 @@ python train.py +experiments=$EXPERIMENT +train=${EXPERIMENT}_pinp
 python analyze.py +experiments=$EXPERIMENT
 ```
 These commands are also available in convenience scripts; for example, the above is in `deep_pdes/experiments/2b_stefan_var_p.sh`.
+
+![Image](resources/stefan_solution_profile_UQ) \
+**Solution Profiles and UQ** \
+![Image](resources/stefan_shock_position_downstream_task) \
+**Downstream Task: Shock location detction**
 
 # Sources
 This repo contains modified versions of the code found in the following repos:
