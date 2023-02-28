@@ -3,8 +3,9 @@
 
 ![Image](resources/schematic.png)
 
-[Derek Hansen](http://www-personal.umich.edu/~dereklh/), [Danielle C. Maddix](https://scholar.google.com/citations?user=IPDByA8AAAAJ&hl=en), [Shima Alizadeh](https://scholar.google.com/citations?user=r3qS03kAAAAJ&hl=en), [Gaurav Gupta](http://guptagaurav.me/index.html), [Michael W. Mahoney](https://www.stat.berkeley.edu/~mmahoney/) \
-**Learning Physical Models that Can Respect Conservation Laws**
+[Derek Hansen](http://www-personal.umich.edu/~dereklh/), [Danielle C. Maddix](https://dcmaddix.github.io/), [Shima Alizadeh](https://scholar.google.com/citations?user=r3qS03kAAAAJ&hl=en), [Gaurav Gupta](http://guptagaurav.me/index.html), [Michael W. Mahoney](https://www.stat.berkeley.edu/~mmahoney/) \
+**Learning Physical Models that Can Respect Conservation Laws** \
+[Technical Report, Preprint: arXiv:2302.11002](https://arxiv.org/abs/2302.11002), 2023
 
 ## Installation
 This project uses [poetry](https://python-poetry.org/) to manage dependencies.
@@ -59,3 +60,12 @@ This repo contains modified versions of the code found in the following repos:
 - `https://github.com/a1k12/characterizing-pinns-failure-modes`: For diffusion/heat equation analytical solution (MIT license)
 - `https://github.com/soobinseo/Attentive-Neural-Process`: For implementation of the Attentive Neural Process (Apache 2.0 license)
 
+## Citation
+If you use this code, or our work, please cite:
+```
+@article{hansen2023ProbConserv,
+  author = {Hansen, Derek and Maddix, Danielle C. and Alizadeh, Shima and Gupta, Gaurav and Mahoney, Michael W.},
+  title = {Learning Physical Models that Can Respect Conservation Laws},
+  journal={arXiv preprint arXiv:2302.11002},
+  year = {2023},
+}
