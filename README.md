@@ -49,7 +49,7 @@ These commands are also available in convenience scripts; for example, the above
 ![Image](resources/stefan_solution_profile_UQ) \
 **Solution Profiles and UQ for the Stefan Equation** \
 ![Image](resources/stefan_shock_position_downstream_task) \
-**Downstream Task: Shock location detction**
+**Downstream Task: Shock location detection**
 
 For the diffusion equation with constant diffusivity, see  `deep_pdes/experiments/3b_heat_var_c.sh`.
 ![Image](resources//diffusion_eqtn_conserv_mass.png) \
