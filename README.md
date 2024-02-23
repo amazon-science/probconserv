@@ -5,7 +5,7 @@
 
 [Derek Hansen](http://www-personal.umich.edu/~dereklh/), [Danielle C. Maddix](https://dcmaddix.github.io/), [Shima Alizadeh](https://scholar.google.com/citations?user=r3qS03kAAAAJ&hl=en), [Gaurav Gupta](http://guptagaurav.me/index.html), [Michael W. Mahoney](https://www.stat.berkeley.edu/~mmahoney/) \
 **Learning Physical Models that Can Respect Conservation Laws** \
-[Technical Report, Preprint: arXiv:2302.11002](https://arxiv.org/abs/2302.11002), 2023
+[Proceedings of the 40th International Conference on Machine Learning (ICML)](https://proceedings.mlr.press/v202/hansen23b/hansen23b.pdf), PMLR. 202:12469-12510, 2023.
 
 ## Installation
 This project uses [poetry](https://python-poetry.org/) to manage dependencies.
@@ -63,9 +63,12 @@ This repo contains modified versions of the code found in the following repos:
 ## Citation
 If you use this code, or our work, please cite:
 ```
-@article{hansen2023ProbConserv,
-  author = {Hansen, Derek and Maddix, Danielle C. and Alizadeh, Shima and Gupta, Gaurav and Mahoney, Michael W.},
-  title = {Learning Physical Models that Can Respect Conservation Laws},
-  journal={arXiv preprint arXiv:2302.11002},
-  year = {2023},
+@inproceedings{hansen2023learning,
+  title={Learning Physical Models that Can Respect Conservation Laws},
+  author={Hansen, Derek and Maddix, Danielle C. and Alizadeh, Shima and Gupta, Gaurav and Mahoney, Michael W},
+  booktitle={International Conference on Machine Learning},
+  year={2023},
+  volume = {202},
+  pages={12469-12510},
+  organization={PMLR}      
 }
