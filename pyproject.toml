@@ -6,7 +6,7 @@ packages = [{include = "deep_pdes"}]
 authors = ["Derek Hansen"]
 
 [tool.poetry.dependencies]
-python = "">=3.8,<4.0"
+python = ">=3.8,<4.0"
 numpy = "^1.22.4"
 scipy = "^1.8.1"
 matplotlib = "^3.5.2"
