@@ -8,7 +8,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "aiohttp"
-version = "3.8.1"
+version = "3.9.4"
 description = "Async http client/server framework (asyncio)"
 category = "main"
 optional = false
@@ -239,7 +239,7 @@ python-versions = "~=3.7"
 
 [[package]]
 name = "certifi"
-version = "2022.5.18.1"
+version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -578,7 +578,7 @@ flake8 = "*"
 
 [[package]]
 name = "fonttools"
-version = "4.33.3"
+version = "4.43.0"
 description = "Tools to manipulate font files"
 category = "main"
 optional = false
@@ -654,7 +654,7 @@ smmap = ">=3.0.1,<6"
 
 [[package]]
 name = "gitpython"
-version = "3.1.27"
+version = "3.1.32"
 description = "GitPython is a python library used to interact with Git repositories"
 category = "dev"
 optional = false
@@ -700,7 +700,7 @@ tool = ["click (>=6.0.0)"]
 
 [[package]]
 name = "grpcio"
-version = "1.46.3"
+version = "1.53.0"
 description = "HTTP/2-based RPC framework"
 category = "main"
 optional = false
@@ -1380,7 +1380,7 @@ python-versions = "*"
 
 [[package]]
 name = "pillow"
-version = "9.1.1"
+version = "10.3.0"
 description = "Python Imaging Library (Fork)"
 category = "main"
 optional = false
@@ -1462,7 +1462,7 @@ wcwidth = "*"
 
 [[package]]
 name = "protobuf"
-version = "3.19.4"
+version = "3.19.5"
 description = "Protocol Buffers"
 category = "main"
 optional = false
@@ -2180,7 +2180,7 @@ typing_extensions = ">=3.6,<5.0"
 
 [[package]]
 name = "werkzeug"
-version = "2.1.2"
+version = "3.0.3"
 description = "The comprehensive WSGI web application library."
 category = "main"
 optional = false
